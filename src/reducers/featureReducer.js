@@ -1,4 +1,8 @@
-// import action
+// import actions
+import { 
+    ADD_FEATURE, 
+    REMOVE_FEATURE
+} from '../actions/featureActions';
 
 // export initial state
 export const initialState = {
@@ -20,5 +24,19 @@ export const initialState = {
 
 // export reducer
 export const featureReducer = (state = initialState, action) => {
-    return {...state};
+    switch (action.type) {
+        case ADD_FEATURE: 
+            const newCarFeature = state.additionalFeatures.find(feature => {
+                return feature.id === action.payload
+            })
+            return {
+                ...state,
+                car: {...state.car,
+                    features: [...state.car.features, newCarFeature]
+                }
+            }
+        // case REMOVE_FEATURE:
+        default: 
+            return {...state}
+    }
 }
