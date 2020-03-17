@@ -28,12 +28,14 @@ export const featureReducer = (state = initialState, action) => {
         case ADD_FEATURE: 
             const newCarFeature = state.additionalFeatures.find(feature => {
                 return feature.id === action.payload
-            })
+            });
+            const increasedPrice = state.additionalPrice +  newCarFeature.price;
             return {
                 ...state,
                 car: {...state.car,
                     features: [...state.car.features, newCarFeature]
-                }
+                },
+                additionalPrice: increasedPrice
             }
         case REMOVE_FEATURE:
             const updatedCarFeatures = state.car.features.filter(feature => {
@@ -41,11 +43,16 @@ export const featureReducer = (state = initialState, action) => {
                     return {...feature}
                 }
             })
+            const removedFeature = state.car.features.find(feature => {
+                return feature.id === action.payload
+            });
+            const reducedPrice = state.additionalPrice - removedFeature.price;
             return {
                 ...state,
                 car: {...state.car,
                     features: updatedCarFeatures
-                }
+                },
+                additionalPrice: reducedPrice
             }
         default: 
             return {...state}
